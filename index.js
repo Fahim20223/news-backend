@@ -44,7 +44,7 @@ async function connectDB() {
 async function storeNewsArticles(articles, filters) {
   try {
     const newsCollection = db.collection("news");
-    
+
     // Add some metadata to each article before storing
     const articlesWithMetadata = articles.map((article) => ({
       ...article,
@@ -55,8 +55,8 @@ async function storeNewsArticles(articles, filters) {
     }));
 
     // Insert articles, skip duplicates if they exist
-    await newsCollection.insertMany(articlesWithMetadata, { 
-      ordered: false 
+    await newsCollection.insertMany(articlesWithMetadata, {
+      ordered: false,
     });
   } catch (error) {
     // It's okay if some articles are duplicates
@@ -85,6 +85,7 @@ app.get("/api/news", async (req, res) => {
     } = req.query;
 
     // Start building the News API URL
+
     let apiUrl = `${NEWS_API_BASE_URL}/top-headlines?apiKey=${NEWS_API_KEY}`;
 
     // Add query parameters one by one
@@ -105,7 +106,7 @@ app.get("/api/news", async (req, res) => {
       } else {
         apiUrl += `&q=*`; // Search everything
       }
-      
+
       if (language) apiUrl += `&language=${language}`;
       if (sources) apiUrl += `&sources=${sources}`;
       if (from) apiUrl += `&from=${from}`;
@@ -226,10 +227,10 @@ app.get("/api/news/stored", async (req, res) => {
 
 // Simple health check endpoint
 app.get("/api/health", (req, res) => {
-  res.json({ 
-    status: "ok", 
+  res.json({
+    status: "ok",
     message: "News API server is running",
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
